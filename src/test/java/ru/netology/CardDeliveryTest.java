@@ -22,7 +22,7 @@ public class CardDeliveryTest {
         open("http://localhost:9999");
         Configuration.holdBrowserOpen = true;
         $("[data-test-id=city] input").setValue("Санкт-Петербург");
-        $x("//*[contains(@placeholder, 'Дата встречи')]").sendKeys(Keys.CONTROL,Keys.BACK_SPACE);
+        $x("//*[contains(@placeholder, 'Дата встречи')]").sendKeys(Keys.CONTROL, Keys.BACK_SPACE);
         ZonedDateTime date = ZonedDateTime.now().plusDays(4);
         String correctDate = date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         $x("//*[contains(@placeholder, 'Дата встречи')]").setValue(correctDate);
@@ -32,6 +32,21 @@ public class CardDeliveryTest {
         $$("button").findBy(exactText("Забронировать")).click();
         $("[data-test-id=\"notification\"]").shouldHave(text("Успешно!"), Duration.ofSeconds(15)).shouldBe(visible);
         $(".notification__content").shouldHave(exactText("Встреча успешно забронирована на" + correctDate)).shouldBe(visible);
+    }
+    @Test
+    public void shouldOrderDeliveryCardByCalendar(){
+        open("http://localhost:9999");
+        Configuration.holdBrowserOpen = true;
+        $("[data-test-id=city] input").setValue("Са");
+        $$(".menu-item__control").findBy(exactText("Санкт-Петербург")).click();
+        $(".icon-button").shouldBe(visible).click();
+//        $("#myWebElement").shouldHave(pseudo(":before","");
+//        $(byName("name")).setValue("Петров-Водкин Иван");
+//        $("[data-test-id=phone] input").setValue("+79993332211");
+//        $("[data-test-id=agreement]").click();
+//        $$("button").findBy(exactText("Забронировать")).click();
+//        $("[data-test-id=\"notification\"]").shouldHave(text("Успешно!"), Duration.ofSeconds(15)).shouldBe(visible);
+//        $(".notification__content").shouldHave(exactText("Встреча успешно забронирована на" + correctDate)).shouldBe(visible);
 
     }
-    }
+}
